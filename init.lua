@@ -13,7 +13,7 @@ return {
     show_changelog = true,   -- show the changelog after performing an update
     auto_quit = false        -- automatically quit the current session after a successful update
   },
-  colorscheme = "onedarker", -- Set colorscheme to use
+  colorscheme = "Onedarker", -- Set colorscheme to use
 
   options = {
     opt = {
