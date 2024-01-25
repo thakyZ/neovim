@@ -133,7 +133,7 @@ return {
           "lua",
           "markdown",
           "markdown_inline",
-          "arduino",
+          -- "arduino",
           "cpp",
           "c",
         },
@@ -178,7 +178,12 @@ return {
     { "kana/vim-textobj-entire", },
     { "kiyoon/treesitter-indent-object.nvim", },
     { "nvim-treesitter/nvim-treesitter", },
-    { "stevearc/vim-arduino", }, -- sudo pacman -S arduino-cli (and arduino?)
+    {
+      "stevearc/vim-arduino", -- sudo pacman -S arduino-cli (and arduino?)
+      disable = function()
+        return _G.IS_WINDOWS
+      end
+    },
     { "hiphish/rainbow-delimiters.nvim",         lazy = false, },
     { "folke/zen-mode.nvim",                     lazy = false, },
     { "godlygeek/tabular",                       lazy = false, }, -- ALIGN <leader>a | https://stackoverflow.com/questions/5436715/how-do-i-align-like-this-with-vims-tabular-plugin
@@ -189,6 +194,7 @@ return {
     { "mg979/vim-visual-multi",                  lazy = false, },
     { "nvim-treesitter/nvim-treesitter-context", lazy = false, },
     { "vim-scripts/ReplaceWithRegister",         lazy = false, },
+    { "rhysd/actionlint",                        lazy = false, },
     {
       "iamcco/markdown-preview.nvim",
       config = function()
@@ -443,12 +449,12 @@ return {
       end
       ]]
     },
-    -- on_attach = function(client, bufnr)
-    --   if client.name == "arduino_language_server" then
-    --     client.server_capabilities.semanticTokensProvider = nil
-    --     -- client.server_capabilities.semanticTokensProvider = false
-    --   end
-    -- end,
+    on_attach = function(client, bufnr)
+      if not _G.IS_WINDOWS and client.name == "arduino_language_server" then
+        client.server_capabilities.semanticTokensProvider = nil
+        -- client.server_capabilities.semanticTokensProvider = false
+      end
+    end,
     formatting = {
       format_on_save = { -- control auto formatting on save
         enabled = false, -- enable or disable format on save globally
@@ -476,27 +482,31 @@ return {
           root_dir = require("lspconfig.util").root_pattern "pdack.tst"
         }
       end,
-      -- arduino_language_server = { --  https://github.com/williamboman/nvim-lsp-installer/tree/main/lua/nvim-lsp-installer/servers/arduino_language_server | https://discord.com/channels/939594913560031363/1078005571451621546/threads/1122910773270818887
-      --   on_new_config = function (config, root_dir)
-      --     local my_arduino_fqbn = {
-      --       ["/home/xou/Desktop/xou/programming/hardware/arduino/nano"]  = "arduino:avr:nano", -- arduino-cli board listall
-      --       ["/home/xou/Desktop/xou/programming/hardware/arduino/uno" ]  = "arduino:avr:uno" ,
-      --     }
-      --     local DEFAULT_FQBN = "arduino:avr:uno"
-      --     local fqbn = my_arduino_fqbn[root_dir]
-      --     if not fqbn then
-      --       -- vim.notify(("Could not find which FQBN to use in %q. Defaulting to %q."):format(root_dir, DEFAULT_FQBN))
-      --       fqbn = DEFAULT_FQBN
-      --     end
-      --     config.cmd = {         --  https://forum.arduino.cc/t/solved-errors-with-clangd-startup-for-arduino-language-server-in-nvim/1019977
-      --       "arduino-language-server",
-      --       "-cli-config" , "~/.arduino15/arduino-cli.yaml", -- just in case it was /home/xou/.arduino15/arduino-cli.yaml
-      --       "-cli"        , "/usr/bin/arduino-cli", -- 2023-06-26 ERROR | "Runs" if I set a wrong path
-      --       "-clangd"     , "/usr/bin/clangd",
-      --       "-fqbn"       , fqbn
-      --     }
-      --   end
-      -- },
+      arduino_language_server = { --  https://github.com/williamboman/nvim-lsp-installer/tree/main/lua/nvim-lsp-installer/servers/arduino_language_server | https://discord.com/channels/939594913560031363/1078005571451621546/threads/1122910773270818887
+        on_new_config = function (config, root_dir)
+          if _G.IS_WINDOWS then
+            return
+          end
+
+          local my_arduino_fqbn = {
+            ["/home/xou/Desktop/xou/programming/hardware/arduino/nano"]  = "arduino:avr:nano", -- arduino-cli board listall
+           ["/home/xou/Desktop/xou/programming/hardware/arduino/uno" ]  = "arduino:avr:uno" ,
+          }
+          local DEFAULT_FQBN = "arduino:avr:uno"
+          local fqbn = my_arduino_fqbn[root_dir]
+          if not fqbn then
+            -- vim.notify(("Could not find which FQBN to use in %q. Defaulting to %q."):format(root_dir, DEFAULT_FQBN))
+           fqbn = DEFAULT_FQBN
+          end
+          config.cmd = {         --  https://forum.arduino.cc/t/solved-errors-with-clangd-startup-for-arduino-language-server-in-nvim/1019977
+            "arduino-language-server",
+            "-cli-config" , "~/.arduino15/arduino-cli.yaml", -- just in case it was /home/xou/.arduino15/arduino-cli.yaml
+            "-cli"        , "/usr/bin/arduino-cli", -- 2023-06-26 ERROR | "Runs" if I set a wrong path
+            "-clangd"     , "/usr/bin/clangd",
+            "-fqbn"       , fqbn
+          }
+        end
+      },
       pyright = {
         settings = { python = { analysis = { typeCheckingMode = "off" } } }
       }
@@ -781,12 +791,14 @@ return {
     api.nvim_command "set conceallevel=2"                                                             -- au FileType markdown setl conceallevel=0
     api.nvim_command "au BufRead,BufNewFile *.md nnoremap <buffer> gf :call go_to_markdown_ref()<cr>" -- https://www.reddit.com/r/vim/comments/yu49m1/rundont_run_vim_command_based_on_current_file/
 
-    api.nvim_command "au BufRead,BufNewFile *.ino nnoremap <buffer> <leader>aa <cmd>ArduinoAttach<CR>"
-    api.nvim_command "au BufRead,BufNewFile *.ino nnoremap <buffer> <leader>am <cmd>ArduinoVerify<CR>"
-    api.nvim_command "au BufRead,BufNewFile *.ino nnoremap <buffer> <leader>au <cmd>ArduinoUpload<CR>"
-    api.nvim_command "au BufRead,BufNewFile *.ino nnoremap <buffer> <leader>ad <cmd>ArduinoUploadAndSerial<CR>"
-    api.nvim_command "au BufRead,BufNewFile *.ino nnoremap <buffer> <leader>ab <cmd>ArduinoChooseBoard<CR>"
-    api.nvim_command "au BufRead,BufNewFile *.ino nnoremap <buffer> <leader>ap <cmd>ArduinoChooseProgrammer<CR>"
+    if not _G.IS_WINDOWS then
+      api.nvim_command "au BufRead,BufNewFile *.ino nnoremap <buffer> <leader>aa <cmd>ArduinoAttach<CR>"
+      api.nvim_command "au BufRead,BufNewFile *.ino nnoremap <buffer> <leader>am <cmd>ArduinoVerify<CR>"
+      api.nvim_command "au BufRead,BufNewFile *.ino nnoremap <buffer> <leader>au <cmd>ArduinoUpload<CR>"
+      api.nvim_command "au BufRead,BufNewFile *.ino nnoremap <buffer> <leader>ad <cmd>ArduinoUploadAndSerial<CR>"
+      api.nvim_command "au BufRead,BufNewFile *.ino nnoremap <buffer> <leader>ab <cmd>ArduinoChooseBoard<CR>"
+      api.nvim_command "au BufRead,BufNewFile *.ino nnoremap <buffer> <leader>ap <cmd>ArduinoChooseProgrammer<CR>"
+    end
 
     map.set("n", "<leader>al", "<cmd>Tab /[=:|]/<cr>", { desc = "Align text" })
 
