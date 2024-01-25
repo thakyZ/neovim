@@ -13,7 +13,8 @@ return {
     show_changelog = true,   -- show the changelog after performing an update
     auto_quit = false        -- automatically quit the current session after a successful update
   },
-  colorscheme = "Onedarker", -- Set colorscheme to use
+  -- colorscheme = "onedarker", -- Set colorscheme to use
+  colorscheme = "astrodark",
 
   options = {
     opt = {
@@ -105,7 +106,7 @@ return {
     -- Colorschemes
     { "fcpg/vim-orbital", },
     { "nocksock/nazgul-vim", },
-    { "lunarvim/Onedarker.nvim", },
+    { "LunarVim/onedarker.nvim", },
     { "Mofiqul/vscode.nvim", },
     { "nikolvs/vim-sunbather", },
     { "navarasu/onedark.nvim", },
@@ -245,6 +246,23 @@ return {
       "numToStr/Comment.nvim",
       config = function()
         require("Comment").setup {
+          ignore = "",
+          mappings = {
+            basic = true,
+            extra = true,
+          },
+          pre_hook = function()
+            return ""
+          end,
+          post_hook = function()
+          end,
+          extra = {
+            below = "*/",
+            above = "/*",
+            eol = "lf",
+          },
+          padding = true,
+          sticky = false,
           toggler = {
             line = "cml", -- Line-comment toggle keymap
             block = "gbc", -- Block-comment toggle keymap
@@ -334,6 +352,17 @@ return {
       "yioneko/nvim-yati",
       config = function() -- #2
         require("nvim-treesitter.configs").setup {
+          modules = {
+
+          },
+          sync_install = true,
+          ensure_installed = {
+
+          },
+          auto_install = true,
+          ignore_install = {
+
+          },
           yati   = {
             enable           = true,
             disable          = { 'python', 'markdown', 'lua', 'cpp' }, -- Disable by languages, see `Supported languages`
