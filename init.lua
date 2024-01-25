@@ -232,14 +232,16 @@ return {
           }
         }
       end
-    }, {
+    },
+    {
       "kylechui/nvim-surround",
       config = function()
         require("nvim-surround").setup()
       end,
       event = "VeryLazy",
       version = "*",
-    }, {
+    },
+    {
       "numToStr/Comment.nvim",
       config = function()
         require("Comment").setup {
@@ -254,7 +256,8 @@ return {
         }
       end,
       lazy = false
-    }, -- permanant solution until fix https://discord.com/channels/939594913560031363/1088835559012716584
+    },
+    -- permanant solution until fix https://discord.com/channels/939594913560031363/1088835559012716584
     {
       "Shatur/neovim-ayu",
       config = function()
@@ -403,9 +406,13 @@ return {
       "dartls"
     },
     setup_handlers = { -- add custom handler
-      dartls = function(_, opts)
-        require("flutter-tools").setup { lsp = opts }
+      --[[
+        dartls = function(_, opts)
+        require("flutter-tools").setup {
+          lsp = opts,
+        }
       end
+      ]]
     },
     -- on_attach = function(client, bufnr)
     --   if client.name == "arduino_language_server" then
