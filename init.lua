@@ -4,14 +4,14 @@ _G.IS_WINDOWS = vim.loop.os_uname().sysname:find "Windows" and true or false
 _G.IS_ARCH = vim.loop.os_uname().release:find "arch" and true or false
 
 return {
-  updater = {                -- Configure AstroNvim updates
-    remote = "origin",       -- remote to use
-    channel = "stable",      -- "stable" or "nightly"
-    version = "latest",      -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
-    pin_plugins = nil,       -- nil, true, false (nil will pin plugins on stable only)
-    skip_prompts = false,    -- skip prompts about breaking changes
-    show_changelog = true,   -- show the changelog after performing an update
-    auto_quit = false        -- automatically quit the current session after a successful update
+  updater = {              -- Configure AstroNvim updates
+    remote = "origin",     -- remote to use
+    channel = "stable",    -- "stable" or "nightly"
+    version = "latest",    -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
+    pin_plugins = nil,     -- nil, true, false (nil will pin plugins on stable only)
+    skip_prompts = false,  -- skip prompts about breaking changes
+    show_changelog = true, -- show the changelog after performing an update
+    auto_quit = false      -- automatically quit the current session after a successful update
   },
   -- colorscheme = "onedarker", -- Set colorscheme to use
   colorscheme = "astrodark",
@@ -156,9 +156,9 @@ return {
         'stevearc/dressing.nvim', -- optional for vim.ui.select
       },
       config = true,
-    }, -- add lsp plugin
+    },                               -- add lsp plugin
     {
-      "p00f/clangd_extensions.nvim",     -- install lsp plugin
+      "p00f/clangd_extensions.nvim", -- install lsp plugin
       init = function()
         -- load clangd extensions when clangd attaches
         local augroup = vim.api.nvim_create_augroup("clangd_extensions", { clear = true })
@@ -179,16 +179,16 @@ return {
     { "kiyoon/treesitter-indent-object.nvim", },
     { "nvim-treesitter/nvim-treesitter", },
     { "stevearc/vim-arduino", }, -- sudo pacman -S arduino-cli (and arduino?)
-    { "hiphish/rainbow-delimiters.nvim", lazy = false, },
-    { "folke/zen-mode.nvim", lazy = false, },
-    { "godlygeek/tabular", lazy = false, }, -- ALIGN <leader>a | https://stackoverflow.com/questions/5436715/how-do-i-align-like-this-with-vims-tabular-plugin
-    { "folke/trouble.nvim", lazy = false, },
-    { "svermeulen/vim-yoink", lazy = false, }, -- TERMUX https://github.com/GiorgosXou/our-neovim-setup/issues/2
-    { "Shadowsith/vim-minify", lazy = false, }, -- TODO: It needs to be Checked 2023-03-24 06:29:23 PM
-    { "m-pilia/vim-smarthome", lazy = false, },
-    { "mg979/vim-visual-multi", lazy = false, },
-    { "nvim-treesitter/nvim-treesitter-context", lazy = false,  },
-    { "vim-scripts/ReplaceWithRegister", lazy = false, },
+    { "hiphish/rainbow-delimiters.nvim",         lazy = false, },
+    { "folke/zen-mode.nvim",                     lazy = false, },
+    { "godlygeek/tabular",                       lazy = false, }, -- ALIGN <leader>a | https://stackoverflow.com/questions/5436715/how-do-i-align-like-this-with-vims-tabular-plugin
+    { "folke/trouble.nvim",                      lazy = false, },
+    { "svermeulen/vim-yoink",                    lazy = false, }, -- TERMUX https://github.com/GiorgosXou/our-neovim-setup/issues/2
+    { "Shadowsith/vim-minify",                   lazy = false, }, -- TODO: It needs to be Checked 2023-03-24 06:29:23 PM
+    { "m-pilia/vim-smarthome",                   lazy = false, },
+    { "mg979/vim-visual-multi",                  lazy = false, },
+    { "nvim-treesitter/nvim-treesitter-context", lazy = false, },
+    { "vim-scripts/ReplaceWithRegister",         lazy = false, },
     {
       "iamcco/markdown-preview.nvim",
       config = function()
@@ -264,11 +264,11 @@ return {
           padding = true,
           sticky = false,
           toggler = {
-            line = "cml", -- Line-comment toggle keymap
+            line = "cml",  -- Line-comment toggle keymap
             block = "gbc", -- Block-comment toggle keymap
           },
           opleader = {
-            line = "cm", ---Line-comment keymap
+            line = "cm",  ---Line-comment keymap
             block = "gb", ---Block-comment keymap
           },
         }
@@ -336,8 +336,8 @@ return {
             program = "${file}",          -- This configuration will launch the current file if used.
             pythonPath = "/usr/bin/python",
           },
-          {                            -- The first three options are required by nvim-dap
-            type = "python",                -- the type here established the link to the adapter definition : `dap.adapters.python`
+          {                  -- The first three options are required by nvim-dap
+            type = "python", -- the type here established the link to the adapter definition : `dap.adapters.python`
             request = "launch",
             name = "Launch file in integrated terminal",
             console = "integratedTerminal", -- Options here and  below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
@@ -352,24 +352,24 @@ return {
       "yioneko/nvim-yati",
       config = function() -- #2
         require("nvim-treesitter.configs").setup {
-          modules = {
+          modules          = {
 
           },
-          sync_install = true,
+          sync_install     = true,
           ensure_installed = {
 
           },
-          auto_install = true,
-          ignore_install = {
+          auto_install     = true,
+          ignore_install   = {
 
           },
-          yati   = {
+          yati             = {
             enable           = true,
             disable          = { 'python', 'markdown', 'lua', 'cpp' }, -- Disable by languages, see `Supported languages`
             default_lazy     = true,                                   -- Whether to enable lazy mode (recommend to enable this if bad indent happens frequently)
             default_fallback = "auto",
           },
-          indent = {
+          indent           = {
             enable = true, -- disable builtin indent module
           },
         }
@@ -703,11 +703,11 @@ return {
     map.set({ "x", "o" }, "iI", "<Cmd>lua require'treesitter_indent_object.textobj'.select_indent_inner(true)<CR>") -- select entire inner range (including if, else, etc.)
 
     map.set("i", "<C-S>", "<C-o>:w<cr>")
-    map.set("n", "<C-S-s>", "<cmd>:noa w<cr>", bufopts)                                                             -- save without formatting
-    map.set("n", "<leader>s", "<cmd>:noa w<cr>")                                                                    -- save without formatting
-    map.set("i", "<C-z>", "<C-o>u", bufopts)                                                                        -- undo alternative
-    map.set("i", "<C-r>", "<C-o>:redo<cr>", bufopts)                                                                -- redo alternative
-    map.set("i", "<C-S-z>", "<C-o>:redo<cr>", bufopts)                                                              -- redo alternative
+    map.set("n", "<C-S-s>", "<cmd>:noa w<cr>", bufopts) -- save without formatting
+    map.set("n", "<leader>s", "<cmd>:noa w<cr>")        -- save without formatting
+    map.set("i", "<C-z>", "<C-o>u", bufopts)            -- undo alternative
+    map.set("i", "<C-r>", "<C-o>:redo<cr>", bufopts)    -- redo alternative
+    map.set("i", "<C-S-z>", "<C-o>:redo<cr>", bufopts)  -- redo alternative
     map.set("i", "<C-Q>", "<C-o>:q!<cr>")
     map.set("v", "p", '"_dP')
     map.set("v", "<A-k>", ":m '<-2<CR>gv=gv")
