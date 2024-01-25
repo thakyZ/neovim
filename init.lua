@@ -147,7 +147,15 @@ return {
         },
       }
     },
-    { "akinsho/flutter-tools.nvim", }, -- add lsp plugin
+    {
+      "akinsho/flutter-tools.nvim",
+      lazy = false,
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+        'stevearc/dressing.nvim', -- optional for vim.ui.select
+      },
+      config = true,
+    }, -- add lsp plugin
     {
       "p00f/clangd_extensions.nvim",     -- install lsp plugin
       init = function()
