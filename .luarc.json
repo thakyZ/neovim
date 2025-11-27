@@ -1,0 +1,12 @@
+{
+  "diagnostics.globals": [
+    "astronvim",
+    "astronvim_installation",
+    "vim",
+    "bit",
+    "bufopts"
+  ],
+  "diagnostics.severity": {
+    "unused-vararg": "Hint"
+  }
+}
