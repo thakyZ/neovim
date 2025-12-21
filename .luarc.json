@@ -6,7 +6,17 @@
     "bit",
     "bufopts"
   ],
+  "runtime.version": "Lua 5.4",
   "diagnostics.severity": {
     "unused-vararg": "Hint"
-  }
+  },
+  "workspace.library": [
+    "~/.local/share/nvim/lazy",
+    "~/.local/share/nvim/start/packer.nvim/lua",
+    "./.vscode/shared"
+  ],
+  "diagnostics.libraryFiles": "Disable",
+    "diagnostics.disable": [
+        "missing-fields"
+    ]
 }

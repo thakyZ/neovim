@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 -- You can also add or configure plugins by creating files in this `plugins/` folder
@@ -99,18 +98,3 @@ return {
   -- },
 }
 ]]--
-||||||| a703cdb
-=======
-return {
-  -- You can also add new plugins here as well:
-  -- Add plugins, the lazy syntax
-  -- "andweeb/presence.nvim",
-  -- {
-  --   "ray-x/lsp_signature.nvim",
-  --   event = "BufRead",
-  --   config = function()
-  --     require("lsp_signature").setup()
-  --   end,
-  -- },
-}
->>>>>>> 2701d1b4ee3bea3084e6d0b089921b2cc8892ef3

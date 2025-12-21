@@ -1,6 +1,6 @@
 -- This file simply bootstraps the installation of Lazy.nvim and then calls other files for execution
 -- This file doesn"t necessarily need to be touched, BE CAUTIOUS editing this file and proceed at your own risk.
-local lazypath = vim.env.LAZY or vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+local lazypath = vim.env.LAZY or vim.fn.stdpath("data" .. "/lazy/lazy.nvim")
 if not (vim.env.LAZY or (vim.uv or vim.loop).fs_stat(lazypath)) then
   -- stylua: ignore
   vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
@@ -11,23 +11,34 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 -- validate that lazy is available
 if not pcall(require, "lazy") then
   -- stylua: ignore
-  vim.api.nvim_echo({ { ("Unable to load lazy from: %s\n"):format(lazypath), "ErrorMsg" }, { "Press any key to exit...", "MoreMsg" } }, true, {})
+  vim.api.nvim_echo({
+    {
+      "Unable to load lazy from: %s\n":format(lazypath),
+      "ErrorMsg",
+    },
+    {
+      "Press any key to exit...",
+      "MoreMsg",
+    }
+  }, true, {})
   vim.fn.getchar()
   vim.cmd.quit()
 end
 
-require "lazy_setup"
-require "polish"
+require("lazy_setup")
+require("polish")
 ]]--
 
 -- install those packages:
 -- `sudo pacman -S ripgrep lazygit`
 
-_G.IS_WINDOWS = vim.loop.os_uname().sysname:find "Windows" and true or false
+_G.IS_WINDOWS = vim.loop.os_uname().sysname:find("Windows") and true or false
 _G.XKB_SWITCH = vim.fn.executable("xkb-switch") == 1
 
 require("plugins")
 
+
+---@type Array<LazySpec>
 local plugins = {
   {
     "AstroNvim/AstroNvim",
@@ -87,7 +98,7 @@ local plugins = {
 
           go_to_markdown_ref = function()
             local cursor = vim.api.nvim_win_get_cursor(0)
-            local line   = vim.api.nvim_buf_get_lines (0, cursor[1]-1, cursor[1] , false)[1]
+            local line   = vim.api.nvim_buf_get_lines(0, cursor[1]-1, cursor[1] , false)[1]
 
             for match in string.gmatch(line, '%(([^"%)]+)') do
               local start_pos = string.find(line, match)
@@ -156,18 +167,23 @@ local plugins = {
     end,
     ]]--
   },
-
   {
     "ray-x/lsp_signature.nvim",
     ---@module 'lsp_signature'
     event = "BufRead",
     config = function()
-      require("lsp_signature").setup(({hint_prefix="• "}))
+      require("lsp_signature").setup({
+        hint_prefix = "• ",
+      })
     end,
   }, -- hints
   {
     "goolord/alpha-nvim",
     ---@module 'alpha'
+    ---comment
+    ---@param _ any
+    ---@param opts any
+    ---@return any
     opts = function(_, opts)
       opts.section.header.val = { -- customize the dashboard header
         '             \\                                      [            ',
@@ -341,7 +357,7 @@ local plugins = {
   {
     "nvim-treesitter/nvim-treesitter",
     ---@module 'nvim-treesitter'
-    ---@type 
+    ---@class TSConfig
     opts = {
       ensure_installed = {
         "python",
@@ -409,50 +425,61 @@ local plugins = {
   },
   {
     "folke/zen-mode.nvim",
+    ---@module 'zen-mode'
     lazy = false,
   },
   {
     -- ALIGN <leader>a | https://stackoverflow.com/questions/5436715/how-do-i-align-like-this-with-vims-tabular-plugin
     "godlygeek/tabular",
+    ---@module 'tabular'
     lazy = false,
   },
   {
     "folke/trouble.nvim",
+    ---@module 'trouble'
     lazy = false,
   },
   {
     -- TERMUX https://github.com/GiorgosXou/our-neovim-setup/issues/2
     "svermeulen/vim-yoink",
+    ---@module 'yoink'
     lazy = false,
   },
   {
     -- TODO: It needs to be Checked 2023-03-24 06:29:23 PM
     "Shadowsith/vim-minify",
+    ---@module 'minify'
     lazy = false,
   },
   {
     "m-pilia/vim-smarthome",
+    ---@module 'smarthome'
     lazy = false,
   },
   {
     "mg979/vim-visual-multi",
+    ---@module 'visual-multi'
     lazy = false,
   },
   {
     "hiphish/rainbow-delimiters.nvim",
+    ---@module 'rainbow-delimiters'
     lazy = false,
   },
   {
     "vim-scripts/ReplaceWithRegister",
+    ---@module 'ReplaceWithRegister'
     lazy = false,
   },
   {
     -- Top context-bar when scrolling
     "nvim-treesitter/nvim-treesitter-context",
+    ---@module 'treesitter-context'
     lazy = false,
   },
   {
     "iamcco/markdown-preview.nvim",
+    ---@module 'markdown-preview'
     config = function()
       vim.fn["mkdp#util#install"]()
     end,
@@ -463,6 +490,7 @@ local plugins = {
   {
     "petertriho/nvim-scrollbar",
     ---@module 'scrollbar'
+    ---@module 'scrollbar'
     lazy = false,
     config = function()
       require("scrollbar").setup()
@@ -470,6 +498,7 @@ local plugins = {
   },
   {
     "nat-418/boole.nvim",
+    ---@module 'boole'
     lazy = false,
     config = function()
       require("boole").setup({ -- https://www.reddit.com/r/neovim/comments/y2h9sq/new_plugin_boolenvim_toggle_booleans_cycle_days/
@@ -489,6 +518,7 @@ local plugins = {
   },
   {
     "kylechui/nvim-surround",
+    ---@module 'surround'
     config = function()
       require("nvim-surround").setup()
     end,
@@ -497,6 +527,7 @@ local plugins = {
   },
   {
     "numToStr/Comment.nvim",
+    ---@module 'Comment'
     config = function()
       require("Comment").setup({
         toggler = {
@@ -513,6 +544,7 @@ local plugins = {
   }, -- permanant solution until fix https://discord.com/channels/939594913560031363/1088835559012716584
   {
     "Shatur/neovim-ayu",
+    ---@module 'ayu'
     config = function()
       -- local utils = require "default_theme.utils"
       require("ayu").setup({                               -- don"t forger :PackerCompile if it doesn"t work
@@ -547,6 +579,7 @@ local plugins = {
   },
   {
     "lewis6991/gitsigns.nvim",
+    ---@module 'gitsigns'
     config = function()
       require("gitsigns").setup()
       require("scrollbar.handlers.gitsigns").setup()
@@ -554,11 +587,15 @@ local plugins = {
   },
   {
     "mfussenegger/nvim-dap",
+    ---@module 'dap'
     config = function()
-      local dap = require "dap" -- dap.defaults.fallback.force_external_terminal = true
+      local dap = require("dap")
+      -- dap.defaults.fallback.force_external_terminal = true
       dap.defaults.fallback.external_terminal = {
         command = "/usr/bin/alacritty",
-        args    = { "-e" }            ,
+        args = {
+          "-e",
+        },
       }
       dap.configurations.python = {
         { -- The first three options are required by nvim-dap
@@ -567,7 +604,7 @@ local plugins = {
           name       = "Launch file in external terminal"  ,
           console    = "externalTerminal"                  , -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
           program    = "${file}"                           , -- This configuration will launch the current file if used.
-          pythonPath = "/usr/bin/python"
+          pythonPath = "/usr/bin/python"                   ,
         },
         { -- The first three options are required by nvim-dap
           type       = "python"                            , -- the type here established the link to the adapter definition : `dap.adapters.python`
@@ -575,19 +612,22 @@ local plugins = {
           name       = "Launch file in integrated terminal",
           console    = "integratedTerminal"                , -- Options here and  below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
           program    = "${file}"                           , -- This configuration will launch the current file if used.
-          pythonPath = "/usr/bin/python"
-      },}
+          pythonPath = "/usr/bin/python"                   ,
+        },
+      }
     end,
   },
   --[[
   {
     "Darazaki/indent-o-matic",
+    ---@module 'indent-o-matic'
     disable = true
   },
   ]]--
   --[[
   {
     "yioneko/nvim-yati",
+    ---@module 'yati'
     config = function () -- #2
       require("nvim-treesitter.configs").setup = {
         yati = {
@@ -612,6 +652,7 @@ local plugins = {
   --[[
   {
     "nvim-neo-tree/neo-tree.nvim",
+    ---@module 'neo-tree'
     opts = {
       window = {
         position = "right",
@@ -624,37 +665,39 @@ local plugins = {
     },
   },
   ]]--
-  --[[
   {
     "AstroNvim/astrolsp",
     ---@module 'astrolsp'
-    ---@type AstroLSPOpts
-    servers = { -- Enable servers that you already have installed without mason
+    -- Enable servers that you already have installed without mason
+    servers = {
       -- "tst_lsp"
       "dartls",
     },
-    handlers = { -- customize how language servers are attached
+    -- Customize how language servers are attached
+    handlers = {
       dartls = function(_, opts)
         require("flutter-tools").setup({
           lsp = opts,
         })
       end,
     },
+    ---@type AstroLSPOpts
     opts = {
       features = {
-        autoformat      = false, -- enable or disable auto formatting on start
-        codelens        = true , -- enable/disable codelens refresh on start
-        inlay_hints     = false, -- enable/disable inlay hints on start
-        semantic_tokens = true , -- enable/disable semantic token highlighting
+        autoformat      = false, -- Enable or disable auto formatting on start
+        codelens        = true , -- Enable or disable codelens refresh on start
+        inlay_hints     = false, -- Enable or disable inlay hints on start
+        semantic_tokens = true , -- Enable or disable semantic token highlighting
       },
-      formatting       = {       -- control auto formatting on save
+      -- Control auto formatting on save
+      formatting = {
         format_on_save = {
-          enabled = false,       -- enable or disable format on save globally
-          allow_filetypes  = {}, -- enable format on save for specified filetypes only
-          ignore_filetypes = {}, -- disable format on save for specified filetypes
+          enabled = false,       -- Enable or disable format on save globally
+          allow_filetypes  = {}, -- Enable format on save for specified filetypes only
+          ignore_filetypes = {}, -- Disable format on save for specified filetypes
         },
-        disabled   = {},         -- disable formatting capabilities for the listed language servers
-        timeout_ms = 1000,       -- default format timeout
+        disabled   = {},         -- Disable formatting capabilities for the listed language servers
+        timeout_ms = 1000,       -- Default format timeout
       },
       -- Customize language server configuration options passed to `lspconfig`
       ---@diagnostic disable: missing-fields
@@ -668,7 +711,8 @@ local plugins = {
             completeFunctionCalls = true,
           },
         },
-        texlab = { -- sudo pacman -S tectonic | yay -S sioyek-appimage
+        -- `sudo pacman -S tectonic | yay -S sioyek-appimage`
+        texlab = {
           settings = {
             texlab = {
               build = {
@@ -680,58 +724,83 @@ local plugins = {
                   "%f",
                   "--synctex",
                   "--keep-logs",
-                  "--keep-intermediates"
+                  "--keep-intermediates",
                 },
               },
             },
           },
         },
 
-        -- tst_lsp = function() -- pottential memmory leak from not closing the script in exit?
-        --   return {
-        --     cmd = {
-        --       "python",
-        --       "/home/xou/Desktop/xou/programming/python/trash/lsptst.py"
-        --     };
-        --     -- filetypes = {"tst"};
-        --     root_dir = require("lspconfig.util").root_pattern("test.tst");
-        --   }
-        -- end,
+        --[[ Potential memory leak from not closing the script in exit?
+        tst_lsp = function()
+          return {
+            cmd = {
+              "python",
+              "/home/xou/Desktop/xou/programming/python/trash/lsptst.py"
+            };
+            --[[
+            filetypes = {
+              "tst",
+            },
+            ]-]--
+            root_dir = require("lspconfig.util").root_pattern("test.tst");
+          }
+        end,
+        ]]--
 
-        arduino_language_server = { --  https://github.com/williamboman/nvim-lsp-installer/tree/main/lua/nvim-lsp-installer/servers/arduino_language_server | https://discord.com/channels/939594913560031363/1078005571451621546/threads/1122910773270818887
+        -- https://github.com/williamboman/nvim-lsp-installer/tree/main/lua/nvim-lsp-installer/servers/arduino_language_server
+        -- https://discord.com/channels/939594913560031363/1078005571451621546/threads/1122910773270818887
+        arduino_language_server = {
           on_new_config = function (config, root_dir)
-            local my_arduino_fqbn = { -- arduino-cli core install arduino:... 
+            -- arduino-cli core install arduino:...
+            local my_arduino_fqbn = {
               ["/home/xou/Desktop/xou/programming/hardware/arduino/nano"              ]  = "arduino:avr:nano", -- arduino-cli board listall
               ["/home/xou/Desktop/xou/programming/hardware/arduino/uno"               ]  = "arduino:avr:uno" ,
               ["/home/xou/Desktop/xou/programming/hardware/esp32/AirM2M_CORE_ESP32C3" ]  = "esp32:esp32:AirM2M_CORE_ESP32C3" ,
               ["/home/xou/Desktop/xou/programming/hardware/esp32/"                    ]  = "esp32:esp32:AirM2M_CORE_ESP32C3" ,
             }
+
             local DEFAULT_FQBN = "arduino:avr:uno"
             local fqbn = my_arduino_fqbn[root_dir]
+
             if not fqbn then
               -- vim.notify(("Could not find which FQBN to use in %q. Defaulting to %q."):format(root_dir, DEFAULT_FQBN))
               fqbn = DEFAULT_FQBN
             end
+
             config.capabilities.textDocument.semanticTokens = vim.NIL
             config.capabilities.workspace.semanticTokens = vim.NIL
             config.cmd = {         --  https://forum.arduino.cc/t/solved-errors-with-clangd-startup-for-arduino-language-server-in-nvim/1019977
               "arduino-language-server",
-              "-cli-config" , "~/arduino15/arduino-cli.yaml", -- just in case it was /home/xou/.arduino15/arduino-cli.yaml 
+              "-cli-config" , "~/arduino15/arduino-cli.yaml", -- just in case it was /home/xou/.arduino15/arduino-cli.yaml
               "-cli"        , "/usr/bin/arduino-cli", -- 2023-06-26 ERROR | "Runs" if I set a wrong path
               "-clangd"     , "/usr/bin/clangd",
               "-fqbn"       , fqbn
             }
-          end
+          end,
         },
-        pyright        = {
-          settings     = {
-            python     = {
+        pyright = {
+          settings = {
+            python = {
               analysis = {
                 typeCheckingMode = "off",
-      },} },},},
+              },
+            },
+          },
+        },
+      },
 
       -- mappings to be set up on attaching of a language server
-      mappings = { n = { gl = { function() vim.diagnostic.open_float() end, desc = "Hover diagnostics" },},},
+      mappings = {
+        n = {
+          gl = {
+            function()
+              vim.diagnostic.open_float()
+            end,
+            desc = "Hover diagnostics",
+          },
+        },
+      },
       on_attach = function(client, bufnr)
         -- this would disable semanticTokensProvider for all clients
         -- client.server_capabilities.semanticTokensProvider = nil
@@ -890,9 +959,11 @@ local polish = function()
 end
 
 -- initialize lazy
-require("lazy").setup {
+require("lazy").setup({
   spec = plugins,
-  ui = { backdrop = 100 },
+  ui = {
+    backdrop = 100,
+  },
   performance = {
     rtp = {
       disabled_plugins = {
@@ -901,10 +972,16 @@ require("lazy").setup {
         "tarPlugin",
         "tohtml",
         "zipPlugin",
-},},},}
+      },
+    },
+  },
+})
 
 polish()
 
+require("notify").setup({
+  background_colour = "#000000",
+})
 
 --[[
   "Trust your Intuitions" -- Related to motions

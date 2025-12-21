@@ -1,7 +1,7 @@
 {
   "AstroNvim": { "branch": "main", "commit": "c5e610f614e74c9dd9bf11760c4d0ad2c98c0abe" },
   "Comment.nvim": { "branch": "master", "commit": "e30b7f2008e52442154b66f7c519bfd2f1e32acb" },
-  "LuaSnip": { "branch": "master", "commit": "5a1e39223db9a0498024a77b8441169d260c8c25" },
+  "LuaSnip": { "branch": "master", "commit": "8ae1dedd988eb56441b7858bd1e8554dfadaa46d" },
   "ReplaceWithRegister": { "branch": "master", "commit": "832efc23111d19591d495dc72286de2fb0b09345" },
   "aerial.nvim": { "branch": "master", "commit": "6ab1a0ce4874d21610fc5a67a6c82c7b943c635b" },
   "alpha-nvim": { "branch": "main", "commit": "de72250e054e5e691b9736ee30db72c65d560771" },
@@ -38,7 +38,6 @@
   "mini.bufremove": { "branch": "main", "commit": "285bdac9596ee7375db50c0f76ed04336dcd2685" },
   "neo-tree.nvim": { "branch": "main", "commit": "f3df514fff2bdd4318127c40470984137f87b62e" },
   "neoconf.nvim": { "branch": "main", "commit": "f630568a4d04154803886f21ca60923f12709f0f" },
-  "neodev.nvim": { "branch": "main", "commit": "46aa467dca16cf3dfe27098042402066d2ae242d" },
   "neovim-ayu": { "branch": "master", "commit": "38caa8b5b969010b1dcae8ab1a569d7669a643d5" },
   "none-ls.nvim": { "branch": "main", "commit": "a117163db44c256d53c3be8717f3e1a2a28e6299" },
   "nui.nvim": { "branch": "main", "commit": "a0fd35fcbb4cb479366f1dc5f20145fd718a3733" },
