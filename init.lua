@@ -1,6 +1,6 @@
 -- This file simply bootstraps the installation of Lazy.nvim and then calls other files for execution
 -- This file doesn"t necessarily need to be touched, BE CAUTIOUS editing this file and proceed at your own risk.
-local lazypath = vim.env.LAZY or vim.fn.stdpath("data" .. "/lazy/lazy.nvim")
+local lazypath = vim.env.LAZY or pcall(require, "lazy") or vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.env.LAZY or (vim.uv or vim.loop).fs_stat(lazypath)) then
   -- stylua: ignore
   vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
@@ -105,7 +105,7 @@ local plugins = {
               local end_pos   = start_pos + string.len(match)
               local link      = ""
 
-              if cursor[2] +1 >= start_pos and cursor[2] < end_pos then
+              if cursor[2] + 1 >= start_pos and cursor[2] < end_pos then
                 local rel_path = string.gsub(vim.api.nvim_buf_get_name(0), "(.+/)(.+)", "%1")
                 vim.api.nvim_command(":edit " .. rel_path .. string.match(match, "^([^#]*)"))
                 vim.api.nvim_command("m\"")
@@ -217,11 +217,11 @@ local plugins = {
     priority = 1000,
     config = function()
       local onedark = require("onedark")
-      onedark.setup {
-        style = "darker"
-      }
+      onedark.setup({
+        style = "darker",
+      })
       onedark.load()
-    end
+    end,
   },
   {
     "nikolvs/vim-sunbather",
@@ -583,7 +583,7 @@ local plugins = {
     config = function()
       require("gitsigns").setup()
       require("scrollbar.handlers.gitsigns").setup()
-    end
+    end,
   },
   {
     "mfussenegger/nvim-dap",
@@ -752,8 +752,7 @@ local plugins = {
         -- https://discord.com/channels/939594913560031363/1078005571451621546/threads/1122910773270818887
         arduino_language_server = {
           on_new_config = function (config, root_dir)
-            -- arduino-cli core install arduino:...
-            local my_arduino_fqbn = {
+            local my_arduino_fqbn = { -- arduino-cli core install arduino:...
               ["/home/xou/Desktop/xou/programming/hardware/arduino/nano"              ]  = "arduino:avr:nano", -- arduino-cli board listall
               ["/home/xou/Desktop/xou/programming/hardware/arduino/uno"               ]  = "arduino:avr:uno" ,
               ["/home/xou/Desktop/xou/programming/hardware/esp32/AirM2M_CORE_ESP32C3" ]  = "esp32:esp32:AirM2M_CORE_ESP32C3" ,
