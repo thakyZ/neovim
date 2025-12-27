@@ -1,6 +1,6 @@
 -- This file simply bootstraps the installation of Lazy.nvim and then calls other files for execution
 -- This file doesn"t necessarily need to be touched, BE CAUTIOUS editing this file and proceed at your own risk.
-local lazypath = vim.env.LAZY or vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+local lazypath = vim.env.LAZY or vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.env.LAZY or (vim.uv or vim.loop).fs_stat(lazypath)) then
   -- stylua: ignore
   vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
@@ -23,7 +23,7 @@ require "polish"
 -- install those packages:
 -- `sudo pacman -S ripgrep lazygit`
 
-_G.IS_WINDOWS = vim.loop.os_uname().sysname:find "Windows" and true or false
+_G.IS_WINDOWS = vim.loop.os_uname().sysname:find("Windows") and true or false
 _G.XKB_SWITCH = vim.fn.executable("xkb-switch") == 1
 
 require("plugins")
@@ -87,14 +87,14 @@ local plugins = {
 
           go_to_markdown_ref = function()
             local cursor = vim.api.nvim_win_get_cursor(0)
-            local line   = vim.api.nvim_buf_get_lines (0, cursor[1]-1, cursor[1] , false)[1]
+            local line   = vim.api.nvim_buf_get_lines (0, cursor[1] - 1, cursor[1] , false)[1]
 
             for match in string.gmatch(line, '%(([^"%)]+)') do
               local start_pos = string.find(line, match)
               local end_pos   = start_pos + string.len(match)
               local link      = ""
 
-              if cursor[2] +1 >= start_pos and cursor[2] < end_pos then
+              if cursor[2] + 1 >= start_pos and cursor[2] < end_pos then
                 local rel_path = string.gsub(vim.api.nvim_buf_get_name(0), "(.+/)(.+)", "%1")
                 vim.api.nvim_command(":edit " .. rel_path .. string.match(match, "^([^#]*)"))
                 vim.api.nvim_command("m\"")
@@ -201,11 +201,11 @@ local plugins = {
     priority = 1000,
     config = function()
       local onedark = require("onedark")
-      onedark.setup {
-        style = "darker"
-      }
+      onedark.setup({
+        style = "darker",
+      })
       onedark.load()
-    end
+    end,
   },
   {
     "nikolvs/vim-sunbather",
@@ -550,7 +550,7 @@ local plugins = {
     config = function()
       require("gitsigns").setup()
       require("scrollbar.handlers.gitsigns").setup()
-    end
+    end,
   },
   {
     "mfussenegger/nvim-dap",
@@ -567,7 +567,7 @@ local plugins = {
           name       = "Launch file in external terminal"  ,
           console    = "externalTerminal"                  , -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
           program    = "${file}"                           , -- This configuration will launch the current file if used.
-          pythonPath = "/usr/bin/python"
+          pythonPath = "/usr/bin/python"                   ,
         },
         { -- The first three options are required by nvim-dap
           type       = "python"                            , -- the type here established the link to the adapter definition : `dap.adapters.python`
@@ -575,8 +575,9 @@ local plugins = {
           name       = "Launch file in integrated terminal",
           console    = "integratedTerminal"                , -- Options here and  below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
           program    = "${file}"                           , -- This configuration will launch the current file if used.
-          pythonPath = "/usr/bin/python"
-      },}
+          pythonPath = "/usr/bin/python"                   ,
+        },
+      }
     end,
   },
   --[[
@@ -624,7 +625,6 @@ local plugins = {
     },
   },
   ]]--
-  --[[
   {
     "AstroNvim/astrolsp",
     ---@module 'astrolsp'
@@ -700,7 +700,7 @@ local plugins = {
 
         arduino_language_server = { --  https://github.com/williamboman/nvim-lsp-installer/tree/main/lua/nvim-lsp-installer/servers/arduino_language_server | https://discord.com/channels/939594913560031363/1078005571451621546/threads/1122910773270818887
           on_new_config = function (config, root_dir)
-            local my_arduino_fqbn = { -- arduino-cli core install arduino:... 
+            local my_arduino_fqbn = { -- arduino-cli core install arduino:...
               ["/home/xou/Desktop/xou/programming/hardware/arduino/nano"              ]  = "arduino:avr:nano", -- arduino-cli board listall
               ["/home/xou/Desktop/xou/programming/hardware/arduino/uno"               ]  = "arduino:avr:uno" ,
               ["/home/xou/Desktop/xou/programming/hardware/esp32/AirM2M_CORE_ESP32C3" ]  = "esp32:esp32:AirM2M_CORE_ESP32C3" ,
